@@ -25,6 +25,7 @@ bin/dhcp6ctl
 bin/dhcp6s
 bin/dm_agent_binder
 bin/dmlog
+bin/etsd
 bin/emdlogger1
 bin/em_svr
 bin/fingerprintd
@@ -218,6 +219,8 @@ lib64/libbluetooth_mtk_pure.so
 lib64/libbluetooth_mtk.so
 lib64/libbluetooth_relayer.so
 lib64/libBnMtkCodec.so
+lib64/libEtsdc.so
+lib64/libFpEts.so
 lib64/libbwc.so
 lib64/libcam1_utils.so
 lib64/libcam3_app.so

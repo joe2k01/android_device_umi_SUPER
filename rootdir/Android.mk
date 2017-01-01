@@ -1,4 +1,4 @@
-LOCAL_PATH := $(call my-dir)
+LOCAL_PATH:= $(call my-dir)
 ifneq ($(filter SUPER,$(TARGET_DEVICE)),)
 include $(CLEAR_VARS)
 

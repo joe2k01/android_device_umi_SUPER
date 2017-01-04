@@ -21,12 +21,12 @@
 
     <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
          autodetected from the Configuration. -->
-    <bool name="config_showNavigationBar">false</bool>
+    <bool name="config_showNavigationBar">true</bool>
 
     <bool name="config_supportDoubleTapWake">false</bool>
 
     <!-- Hardware keys: 64 (volume rocker) -->
-    <integer name="config_deviceHardwareKeys">65</integer>
+    <integer name="config_deviceHardwareKeys">64</integer>
 
     <!-- Hardware keys: 64 (volume rocker) -->
     <integer name="config_deviceHardwareWakeKeys">64</integer>

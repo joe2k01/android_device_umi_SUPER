@@ -25,8 +25,12 @@
 
     <bool name="config_supportDoubleTapWake">false</bool>
 
-    <!-- Hardware keys: 64 (volume rocker) -->
-    <integer name="config_deviceHardwareKeys">65</integer>
+    <!-- Hardware keys: 64 (volume rocker) 
+	Home 1
+	Back 2
+	Menu 4
+	Camera 32-->
+    <integer name="config_deviceHardwareKeys">103</integer>
 
     <!-- Hardware keys: 64 (volume rocker) -->
     <integer name="config_deviceHardwareWakeKeys">64</integer>
@@ -41,7 +45,7 @@
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
-<integer name="config_longPressOnHomeBehavior">0</integer>
+<integer name="config_longPressOnHomeBehavior">2</integer>
 
     <!-- The list absolute paths of jar/apk files containing the device specific handlers,
          delimited by File.pathSeparator, which defaults to ":" on Android -->

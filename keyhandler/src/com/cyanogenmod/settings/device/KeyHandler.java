@@ -128,12 +128,7 @@ public class KeyHandler implements DeviceKeyHandler {
             return true;
         } else if (scanCode==102) {
             Log.i(TAG, "The key is home");
-            PackageManager localPackageManager = getPackageManager();
-            Intent intent = new Intent("android.intent.action.MAIN");
-            intent.addCategory("android.intent.category.HOME");
-            String defLauncher = localPackageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
-            Intent defLauncherActivity = localPackageManager.getLaunchIntentForPackage(defLauncher);
-            startActivity(defLauncherActivity);
+            goHome();
 	/*if (longPress) {
                 Log.i(TAG, "longpress");
             }else {
@@ -197,4 +192,16 @@ public class KeyHandler implements DeviceKeyHandler {
         }
         mVibrator.vibrate(50);
     }
+
+    private void goHome()
+    {
+        PackageManager localPackageManager = mContext.getPackageManager();
+        Intent intent = new Intent("android.intent.action.MAIN");
+        intent.addCategory("android.intent.category.HOME");
+        String defLauncher = localPackageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
+        Intent defLauncherActivity = localPackageManager.getLaunchIntentForPackage(defLauncher);
+        mContext.startActivity(defLauncherActivity);
+    }
+
+
 }

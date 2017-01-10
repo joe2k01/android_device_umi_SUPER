@@ -23,7 +23,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -128,8 +127,7 @@ public class KeyHandler implements DeviceKeyHandler {
             return true;
         } else if (scanCode==102) {
             Log.i(TAG, "The key is home");
-            goHome();
-	/*if (longPress) {
+            /*if (longPress) {
                 Log.i(TAG, "longpress");
             }else {
                 Log.i(TAG, "not longpress");
@@ -192,16 +190,4 @@ public class KeyHandler implements DeviceKeyHandler {
         }
         mVibrator.vibrate(50);
     }
-
-    private void goHome()
-    {
-        PackageManager localPackageManager = mContext.getPackageManager();
-        Intent intent = new Intent("android.intent.action.MAIN");
-        intent.addCategory("android.intent.category.HOME");
-        String defLauncher = localPackageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
-        Intent defLauncherActivity = localPackageManager.getLaunchIntentForPackage(defLauncher);
-        mContext.startActivity(defLauncherActivity);
-    }
-
-
 }

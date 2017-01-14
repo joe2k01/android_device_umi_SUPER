@@ -166,7 +166,6 @@ etc/firmware/WIFI_RAM_CODE_6755
 etc/firmware/WMT_SOC.cfg
 etc/fmr/mt6627_fm_cust.cfg
 etc/mtklog-config.prop
-etc/mtk_omx_core.cfg
 etc/radvd/radvd.conf
 etc/wifi/p2p_supplicant_overlay.conf
 etc/wifi/wpa_supplicant.conf
@@ -195,7 +194,6 @@ lib64/liba3m.so
 lib64/libaal.so
 lib64/libacdk.so
 lib64/libaed.so
-lib64/lib_agoldcam_hi553_mipi_raw_JC_0517A_v1.so
 lib64/lib_agoldcam_imx230_mipi_raw_XL_9625A5_v1.so
 lib64/lib_agoldcam_s5k3l8_mipi_raw_SY_U5BM13_v1.so
 lib64/lib_agoldlens_dw9714af_v1.so
@@ -423,7 +421,6 @@ lib/libaal_cust.so
 lib/libaal.so
 lib/libacdk.so
 lib/libaed.so
-lib/lib_agoldcam_hi553_mipi_raw_JC_0517A_v1.so
 lib/lib_agoldcam_imx230_mipi_raw_XL_9625A5_v1.so
 lib/lib_agoldcam_s5k3l8_mipi_raw_SY_U5BM13_v1.so
 lib/lib_agoldlens_dw9714af_v1.so

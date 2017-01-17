@@ -1,0 +1,8 @@
+[
+	{
+		"remote": "github",
+		"repository": "joe2k01/android_vendor_umi_SUPER",
+		"target_path": "vendor/umi/SUPER",
+		"branch": "master"
+	}
+]

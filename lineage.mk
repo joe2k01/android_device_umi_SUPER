@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-# Inherit some common CM stuff.
+# Inherit some common LineageOS stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
 # Inherit device configuration
@@ -29,5 +29,5 @@ PRODUCT_BRAND := UMI
 PRODUCT_DEVICE := SUPER
 PRODUCT_MANUFACTURER := UMI
 PRODUCT_MODEL := SUPER
-PRODUCT_NAME := cm_SUPER
+PRODUCT_NAME := lineage_SUPER
 PRODUCT_RELEASE_NAME := SUPER

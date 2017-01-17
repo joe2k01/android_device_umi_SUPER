@@ -63,7 +63,6 @@ Front Camera | 5MP (GalaxyCore GC5005)
  * Wuxianlin
  * Deepflex
  * Ferhung
- * SHVED
  * Xen0n
  * Leskal
  * JonnyXDA
@@ -71,6 +70,8 @@ Front Camera | 5MP (GalaxyCore GC5005)
  * Visi0nary
  * andyrichardson
  * Team M.A.D
+ * Rometheus
+ * Flounderist
 
 ### How to build:
 First of all [clone LineageOS repo](https://github.com/LineageOS/android/tree/cm-13.0), then use this local manifest to sync:

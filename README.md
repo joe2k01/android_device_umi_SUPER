@@ -55,7 +55,7 @@ Front Camera | 5MP (GalaxyCore GC5005)
  * Force close camera with HDR on
  * Laggy/slow boot animation
  * Screen Recorder not working
- *WiFi tethering(after disabling need to reboot)
+ * WiFi tethering(after disabling need to reboot)
 
 ### Thanks to:
  * CyanogenMod team

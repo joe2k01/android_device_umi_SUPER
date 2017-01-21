@@ -28,9 +28,8 @@
     <!-- Hardware keys: 64 (volume rocker) 
 	Home 1
 	Back 2
-	Menu 4
-	Camera 32-->
-    <integer name="config_deviceHardwareKeys">103</integer>
+	Menu 4-->
+    <integer name="config_deviceHardwareKeys">71</integer>
 
     <!-- Hardware keys: 64 (volume rocker) -->
     <integer name="config_deviceHardwareWakeKeys">64</integer>

@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIT)/device_SUPER.mk
+	$(LOCAL_DIT)/omni_SUPER.mk

@@ -14,9 +14,6 @@
 # limitations under the License.
 #
 
-# Inherit some common LineageOS stuff.
-$(call inherit-product, vendor/cm/config/common_full_phone.mk)
-
 # Inherit device configuration
 $(call inherit-product, $(LOCAL_PATH)/device_SUPER.mk)
 
@@ -31,3 +28,7 @@ PRODUCT_MANUFACTURER := UMI
 PRODUCT_MODEL := SUPER
 PRODUCT_NAME := lineage_SUPER
 PRODUCT_RELEASE_NAME := SUPER
+
+# Time Zone data for Recovery
+PRODUCT_COPY_FILES += \
+	bionic/libc/zoneinfo/tzdata:recovery/root/system/usr/share/zoneinfo/tzdata

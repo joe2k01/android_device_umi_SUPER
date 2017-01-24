@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIT)/omni_SUPER.mk
+	$(LOCAL_DIR)/omni_SUPER.mk

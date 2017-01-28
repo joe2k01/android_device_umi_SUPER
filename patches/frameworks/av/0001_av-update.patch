@@ -1,18 +1,18 @@
-commit d08510cffb969a19f38186b6e6e716c3f64092a3
-Author: Deepflex <hqdevnews@gmail.com>
-Date:   Sat Oct 8 11:00:21 2016 +0700
+commit 7aabd87562e48ca72814a072317e99aff23e0a7a
+Author: leskal <alexakis1997@gmail.com>
+Date:   Wed Oct 26 17:20:15 2016 +0300
 
-    av update
+    CM-14.0 Patch
     
-    Change-Id: I7159e739c769598c60bf0879d677c766d94d4041
+    Change-Id: I5892707daa9a4064bfc7ab2c4aa18c25ef99bf2a
 
 diff --git a/media/libmedia/Android.mk b/media/libmedia/Android.mk
-index efcd541..e51858e 100644
+index df4e4b6..c7089aa 100644
 --- a/media/libmedia/Android.mk
 +++ b/media/libmedia/Android.mk
-@@ -101,5 +101,13 @@ LOCAL_C_INCLUDES := \
- LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
+@@ -101,5 +101,13 @@ LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
  LOCAL_CLANG := true
+ LOCAL_SANITIZE := unsigned-integer-overflow signed-integer-overflow
  
 +ifeq ($(strip $(BOARD_USES_MTK_HARDWARE)), true)
 +LOCAL_SRC_FILES += \

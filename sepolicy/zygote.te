@@ -26,12 +26,6 @@ allow zygote custom_file:file create_file_perms;
 dontaudit zygote untrusted_app:process ptrace;
 
 # Date : WK14.43
-# Operation : Migration 
-# Purpose : for dump hprof when OOME
-allow zygote anr_data_file:dir *;
-allow zygote anr_data_file:file ~{ execute entrypoint execmod };
-
-# Date : WK14.43
 # Operation : SQC2
 # Purpose : found in FST Auto Test (ALPS01774709)
 allow zygote platform_app:fd use;

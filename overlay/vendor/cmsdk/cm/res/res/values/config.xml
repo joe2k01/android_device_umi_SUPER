@@ -31,6 +31,6 @@
          LIGHTS_SEGMENTED_BATTERY_LED = 16
          LIGHTS_ADJUSTABLE_NOTIFICATION_LED_BRIGHTNESS = 32
     -->
-    <integer name="config_deviceLightCapabilities" translatable="false">31</integer>
+    <integer name="config_deviceLightCapabilities" translatable="false">15</integer>
 
 </resources>

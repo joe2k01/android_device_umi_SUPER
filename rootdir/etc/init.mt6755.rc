@@ -24,7 +24,7 @@ on early-init
 on init
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
-    export LD_PRELOAD "libmtk_symbols.so"
+
     # if primary storage is physical, set ro.vold.primary_physical to 1
     # setprop ro.vold.primary_physical 1
 

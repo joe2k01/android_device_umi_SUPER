@@ -53,7 +53,6 @@ Front Camera | 5MP (GalaxyCore GC5005)
 
 ### In progress:
  * Force close camera with HDR on
- * Laggy/slow boot animation
  * Screen Recorder not working
  * WiFi tethering(after disabling need to reboot)
 

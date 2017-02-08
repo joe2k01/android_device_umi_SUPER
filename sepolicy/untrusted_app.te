@@ -64,3 +64,10 @@ allow untrusted_app pq_service:service_manager { find };
 # Purpose : allow untrusted_app to find mw_blacklist
 # Package: com.mediatek.multiwindow.service
 allow untrusted_app mtk_mwblacklist_service:service_manager find;
+
+# Fix denials
+allow untrusted_app device:dir { read open };
+allow untrusted_app zygote:dir { search };
+allow untrusted_app zygote:file { read };
+
+allow untrusted_app app_data_file:dir { open };

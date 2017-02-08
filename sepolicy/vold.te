@@ -138,3 +138,7 @@ allow vold proc_mtktz:dir r_dir_perms;
 # Operation : Migration
 # Purpose : for ntfs device mount
 allow vold mmcblk1p1_block_device:blk_file { open read write lock ioctl getattr};
+
+# Fix denials
+allow vold logd:dir { read };
+

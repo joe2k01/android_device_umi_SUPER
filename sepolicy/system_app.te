@@ -185,3 +185,6 @@ allow system_app hotknot_prop:property_service set;
 # Package: com.mediatek.multiwindow.service
 allow system_app mtk_mwblacklist_service:service_manager add;
 allow system_app mtk_mwblacklist_service:service_manager find;
+
+# Fix Radio
+allow system_app fm_device:chr_file rw_file_perms;

@@ -49,12 +49,11 @@ Front Camera | 5MP (GalaxyCore GC5005)
  * MTP and Mass Storage modes
  * Fingerprint scanner
  * Fast charging
- * WiFi tethering(only enabling and using)
 
 ### In progress:
  * Force close camera with HDR on
  * Screen Recorder not working
- * WiFi tethering(after disabling need to reboot)
+ * WiFi tethering
 
 ### Thanks to:
  * CyanogenMod team

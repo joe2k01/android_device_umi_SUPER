@@ -23,3 +23,6 @@
 for var in eng user userdebug; do
   add_lunch_combo lineage_SUPER-$var
 done
+
+#Ship with root access
+export WITH_SU=true

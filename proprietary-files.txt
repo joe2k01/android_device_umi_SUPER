@@ -188,6 +188,13 @@ lib64/hw/lights.mt6755.so
 lib64/hw/memtrack.mt6755.so
 lib64/hw/mmsdk.mt6755.so
 lib64/hw/sensors.mt6755.so
+lib64/soundfx/libldnhncr.so
+lib64/soundfx/libreverbwrapper.so
+lib64/soundfx/libeffectproxy.so
+lib64/soundfx/libdownmix.so
+lib64/soundfx/libaudiopreprocessing.so
+lib64/soundfx/libvisualizer.so
+lib64/soundfx/libbundlewrapper.so
 lib64/lib3a_sample.so
 lib64/lib3a.so
 lib64/liba3m.so
@@ -414,6 +421,13 @@ lib/hw/lights.mt6755.so
 lib/hw/memtrack.mt6755.so
 lib/hw/mmsdk.mt6755.so
 lib/hw/sensors.mt6755.so
+lib/soundfx/libldnhncr.so
+lib/soundfx/libreverbwrapper.so
+lib/soundfx/libeffectproxy.so
+lib/soundfx/libdownmix.so
+lib/soundfx/libaudiopreprocessing.so
+lib/soundfx/libvisualizer.so
+lib/soundfx/libbundlewrapper.so
 lib/lib3a_sample.so
 lib/lib3a.so
 lib/liba3m.so

@@ -49,6 +49,7 @@ Front Camera | 5MP (GalaxyCore GC5005)
  * MTP and Mass Storage modes
  * Fingerprint scanner
  * Fast charging
+ * KeySwitching
 
 ### In progress:
  * Force close camera with HDR on

@@ -403,7 +403,6 @@ lib/egl/libGLES_mali.so
 lib/hw/audio_policy.stub.so
 lib/hw/audio.primary.default.so
 lib/hw/audio.primary.mt6755.so
-lib/hw/audio.r_submix.default.so
 lib/hw/camera.default.so
 lib/hw/camera.mt6755.so
 lib/hw/gps.mt6755.so

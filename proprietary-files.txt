@@ -138,7 +138,6 @@ etc/audio_param/Volume_AudioParam.xml
 etc/audio_param/VolumeGainMap_AudioParam.xml
 etc/audio_param/VolumeGainMap_ParamUnitDesc.xml
 etc/audio_param/Volume_ParamUnitDesc.xml
-etc/audio_policy.conf
 etc/custom.conf
 etc/firmware/catcher_filter_1_ulwctg_n.bin
 etc/firmware/dsp_1_ulwctg_n.bin
@@ -171,13 +170,9 @@ etc/wifi/p2p_supplicant_overlay.conf
 etc/wifi/wpa_supplicant.conf
 etc/wifi/wpa_supplicant_overlay.conf
 lib64/egl/libGLES_mali.so
-lib64/hw/audio.a2dp.default.so
-lib64/hw/audio_policy.default.so
 lib64/hw/audio_policy.stub.so
 lib64/hw/audio.primary.default.so
 lib64/hw/audio.primary.mt6755.so
-lib64/hw/audio.r_submix.default.so
-lib64/hw/audio.usb.default.so
 lib64/hw/camera.default.so
 lib64/hw/camera.mt6755.so
 lib64/hw/fingerprint.default.so
@@ -405,13 +400,10 @@ lib64/mtk-ril.so
 lib64/volte_imsm.so
 lib/drm/libdrmmtkplugin.so
 lib/egl/libGLES_mali.so
-lib/hw/audio.a2dp.default.so
-lib/hw/audio_policy.default.so
 lib/hw/audio_policy.stub.so
 lib/hw/audio.primary.default.so
 lib/hw/audio.primary.mt6755.so
 lib/hw/audio.r_submix.default.so
-lib/hw/audio.usb.default.so
 lib/hw/camera.default.so
 lib/hw/camera.mt6755.so
 lib/hw/gps.mt6755.so

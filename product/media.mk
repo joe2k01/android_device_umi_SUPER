@@ -8,3 +8,5 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/media_codecs_mediatek_audio.xml:system/etc/media_codecs_mediatek_audio.xml \
 	$(LOCAL_PATH)/configs/media_codecs_mediatek_video.xml:system/etc/media_codecs_mediatek_video.xml \
 	$(LOCAL_PATH)/configs/mtk_omx_core.cfg:system/etc/mtk_omx_core.cfg
+    $(LOCAL_PATH)/configs/audio_policy_configuration.xml:system/etc/audio_policy_configuration.xml \
+	$(LOCAL_PATH)/configs/a2dp_audio_policy_configuration.xml:/system/etc/a2dp_audio_policy_configuration.xml

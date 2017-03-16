@@ -1,0 +1,2 @@
+# DISABLED BUILD NINJA
+USE_NINJA := false

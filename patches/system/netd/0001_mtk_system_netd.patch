@@ -1,13 +1,13 @@
-commit 71696b4b1acac576c8adcd0b68631e51b211a61e
+commit fcca22a7c7b30ecfe337ba57265019e63e22acf3
 Author: leskal <alexakis1997@gmail.com>
-Date:   Sun Mar 19 16:54:02 2017 +0200
+Date:   Sun Mar 19 17:11:28 2017 +0200
 
-    Fix tether for ap0 interface
+    Fix tether with ap0 interface
     
-    Change-Id: I69d212adfb549654d11d96eb105e57d5bbd9e8d2
+    Change-Id: Ie37948f00c3254c67b4fcbe37b9b6a5212804573
 
 diff --git a/server/SoftapController.cpp b/server/SoftapController.cpp
-index b05118e..882ebaa 100755
+index 1c59ec3..99830f7 100755
 --- a/server/SoftapController.cpp
 +++ b/server/SoftapController.cpp
 @@ -54,7 +54,11 @@ using android::base::WriteStringToFile;
@@ -15,14 +15,14 @@ index b05118e..882ebaa 100755
  
  #ifdef LIBWPA_CLIENT_EXISTS
 +#ifndef MTK_HARDWARE
- static const char HOSTAPD_UNIX_FILE[]    = "/data/misc/wifi/hostapd/wlan0";
+ std:: string hostapd_unix_file(StringPrintf("/data/misc/wifi/hostapd/wlan0"));
 +#else
-+static const char HOSTAPD_UNIX_FILE[]    = "/data/misc/wifi/hostapd/ap0";
++std:: string hostapd_unix_file(StringPrintf("/data/misc/wifi/hostapd/ap0"));
 +#endif
- static const char HOSTAPD_SOCKETS_DIR[]    = "/data/misc/wifi/sockets";
  static const char HOSTAPD_DHCP_DIR[]    = "/data/misc/dhcp";
  #endif
-@@ -277,7 +281,12 @@ int SoftapController::setSoftap(int argc, char *argv[]) {
+ static const char HOSTAPD_CONF_FILE[]    = "/data/misc/wifi/hostapd.conf";
+@@ -289,7 +293,12 @@ int SoftapController::setSoftap(int argc, char *argv[]) {
              "hw_mode=%c\n"
              "ignore_broadcast_ssid=%d\n"
              "wowlan_triggers=any\n",

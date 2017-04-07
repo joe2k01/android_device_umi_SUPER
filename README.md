@@ -78,7 +78,8 @@ First of all [clone LineageOS repo](https://github.com/LineageOS/android/tree/cm
 ```
 <manifest>
 	<project path="device/umi/SUPER" name="joe2k01/android_device_umi_SUPER" remote="github" revision="cm-13.0"/>
-        <project path="vendor/umi/SUPER" name="joe2k01/android_vendor_umi_SUPER" remote="github" revision="master"/>
+    <project path="vendor/umi/SUPER" name="joe2k01/android_vendor_umi_SUPER" remote="github" revision="master"/>
+    <project path="packages/apps/KeySwitch" name="joe2k01/KeySwitch" remote="github" revision="AOSP-build"/>
 </manifest>
 ```
 

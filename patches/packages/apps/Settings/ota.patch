@@ -1,0 +1,25 @@
+diff --git a/res/xml/device_info_settings.xml b/res/xml/device_info_settings.xml
+index b366d9d..68ae84a 100644
+--- a/res/xml/device_info_settings.xml
++++ b/res/xml/device_info_settings.xml
+@@ -35,15 +35,12 @@
+         </PreferenceScreen>
+ 
+         <!-- LineageOS Updates -->
+-        <cyanogenmod.preference.SelfRemovingPreference android:key="cm_updates"
++        <PreferenceScreen android:key="cm_updates"
+                 android:title="@string/cmupdate_settings_title"
+-                android:summary="@string/system_update_settings_list_item_summary"
+-                cm:requiresOwner="true"
+-                cm:requiresPackage="org.lineageos.updater">
+-            <intent android:action="android.intent.action.MAIN"
+-                    android:targetPackage="org.lineageos.updater"
+-                    android:targetClass="com.cyanogenmod.updater.UpdatesActivity" />
+-        </cyanogenmod.preference.SelfRemovingPreference>
++                android:summary="@string/system_update_settings_list_item_summary">
++            <intent android:targetPackage="com.otaupdater"
++                    android:targetClass="com.otaupdater.OTAUpdaterActivity" />
++        </PreferenceScreen>
+ 
+         <!-- Device status - launches activity -->
+         <PreferenceScreen android:key="status_info"

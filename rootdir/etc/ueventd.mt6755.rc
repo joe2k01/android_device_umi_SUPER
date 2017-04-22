@@ -63,7 +63,6 @@
 
 # Anyone can read the logs, but if they're not in the "logs"
 # group, then they'll only see log entries for their UID.
-/dev/xLog                 0600   root       root
 /dev/log/ksystem          0600   root       log
 
 /dev/ccci*                0660   radio      radio
@@ -79,6 +78,8 @@
 /dev/ccci2_aud            0660   audio      audio
 /dev/ccci3_aud            0660   audio      audio
 /dev/eemcs_aud            0660   audio      audio
+/dev/irtx                 0660   system     system
+/dev/ir-learning          0660   system     system
 
 # SGX device node
 /dev/pvrsrvkm             0666   root       root
@@ -117,6 +118,10 @@
 #MTK In-House TEE
 /dev/ttyACM0              0660   radio      radio
 
-#agold_guotuo_add for fingerprint
-/dev/madev0	0666	root	root
-/dev/esfp0	0666	root	root
+#agold guotuo add for fingerprint
+/dev/madev0		0666	root	root
+/dev/esfp0		0666	root	root
+/dev/sunwave_fp	0666	root	root
+/dev/goodix_fp	0666	root	root
+/dev/spidev0.0	0666	root	root
+

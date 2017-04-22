@@ -5,18 +5,30 @@
 #
 import /init.environ.rc
 import init.fon.rc
+import init.aee.rc
 import init.trustonic.rc
+import meta_init.connectivity.rc
 import meta_init.project.rc
+import init.microtrust.rc
 #Make sure meta_init.modem.rc is the last rc file.
 import meta_init.modem.rc
-import init.microtrust.rc
+
 
 on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_score_adj -1000
 
+    # Disable sysrq from keyboard
+    write /proc/sys/kernel/sysrq 0
+
     # Set the security context of /adb_keys if present.
     restorecon /adb_keys
+
+    # Shouldn't be necessary, but sdcard won't start without it. http://b/22568628.
+    mkdir /mnt 0775 root system
+
+    # Set the security context of /postinstall if present.
+    restorecon /postinstall
 
     start ueventd
 
@@ -28,6 +40,9 @@ on early-init
 on init
     sysclktz 0
 
+    # Mix device-specific information into the entropy pool
+    copy /proc/cmdline /dev/urandom
+    copy /default.prop /dev/urandom
 loglevel 5
     write /proc/bootprof "INIT: on init start"
 
@@ -38,24 +53,31 @@ loglevel 5
     # Link /vendor to /system/vendor for devices without a vendor partition.
     symlink /system/vendor /vendor
 
-# Create cgroup mount point for cpu accounting
-    mkdir /acct
+    # Mount cgroup mount point for cpu accounting
     mount cgroup none /acct cpuacct
     mkdir /acct/uid
 
-    mkdir /system
-    mkdir /data 0771 system system
-    mkdir /cache 0770 system cache
-    mkdir /config 0500 root root
+    # Create energy-aware scheduler tuning nodes
+    mkdir /dev/stune
+    mount cgroup none /dev/stune schedtune
+    mkdir /dev/stune/foreground
+    chown system system /dev/stune
+    chown system system /dev/stune/foreground
+    chown system system /dev/stune/tasks
+    chown system system /dev/stune/foreground/tasks
+    chmod 0664 /dev/stune/tasks
+    chmod 0664 /dev/stune/foreground/tasks
 
     # Mount staging areas for devices managed by vold
     # See storage config details at http://source.android.com/tech/storage/
-    mkdir /mnt 0755 root system
     mount tmpfs tmpfs /mnt mode=0755,uid=0,gid=1000
     restorecon_recursive /mnt
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
 
+    mount configfs none /config
+    chmod 0775 /config/sdcardfs
+    chown system package_info /config/sdcardfs
 
     mkdir /mnt/secure 0700 root root
     mkdir /mnt/secure/asec 0700 root root
@@ -65,9 +87,9 @@ loglevel 5
     mkdir /mnt/user 0755 root root
     mkdir /mnt/user/0 0755 root root
     mkdir /mnt/expand 0771 system system
+    mkdir /mnt/appfuse 0711 root root
 
     # Storage views to support runtime permissions
-    mkdir /storage 0755 root root
     mkdir /mnt/runtime 0700 root root
     mkdir /mnt/runtime/default 0755 root root
     mkdir /mnt/runtime/default/self 0755 root root
@@ -78,11 +100,24 @@ loglevel 5
 
     # Symlink to keep legacy apps working in multi-user world
     symlink /storage/self/primary /sdcard
+    symlink /storage/self/primary /mnt/sdcard
     symlink /mnt/user/0/primary /mnt/runtime/default/self/primary
+
+    # root memory control cgroup, used by lmkd
+    mkdir /dev/memcg 0700 root system
+    mount cgroup none /dev/memcg memory
+    # app mem cgroups, used by activity manager, lmkd and zygote
+    mkdir /dev/memcg/apps/ 0755 system system
 
     write /proc/sys/kernel/panic_on_oops 1
     write /proc/sys/kernel/hung_task_timeout_secs 0
     write /proc/cpu/alignment 4
+
+    # scheduler tunables
+    # Disable auto-scaling of scheduler tunables with hotplug. The tunables
+    # will vary across devices in unpredictable ways if allowed to scale with
+    # cpu cores.
+    write /proc/sys/kernel/sched_tunable_scaling 0
     write /proc/sys/kernel/sched_latency_ns 10000000
     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
     write /proc/sys/kernel/sched_compat_yield 1
@@ -90,8 +125,6 @@ loglevel 5
 #INTERNAL_START
     mkdir /protect_f 0771 system system
     mkdir /protect_s 0771 system system
-    #create mountpoint for persist partition
-    mkdir /persist 0771 system system
     #Create nvdata mount point
     mkdir /nvdata 0771 system system
 
@@ -103,13 +136,6 @@ loglevel 5
     write /d/mtkfb enable_idlemgr:0
 #INTERNAL_END
 
-	#agold shipeilong add for persdata start[20151217] 
-    mkdir /persdata 0750 system system 
-    mkdir /persdata/fingerprint 0750 system system
-
-    # if SE linux is enabled, this command is also required 
-    # restorecon_recursive /persdata/fingerprint
-	#agold shipeilong add end
 
 # Healthd can trigger a full boot from charger mode by signaling this
 # property when the power button is held.
@@ -118,8 +144,10 @@ on property:sys.boot_from_charger_mode=1
     trigger late-init
 
 # Load properties from /system/ + /factory after fs mount.
-on load_all_props_action
+on load_system_props_action
     load_system_props
+
+on load_persist_props_action
     load_persist_props
     start logd
     start logd-reinit
@@ -130,20 +158,29 @@ on late-init
     trigger early-fs
     trigger fs
     trigger post-fs
-    trigger post-fs-data
 
     # Load properties from /system/ + /factory after fs mount. Place
     # this in another action so that the load will be scheduled after the prior
     # issued fs triggers have completed.
-    trigger load_all_props_action
+    trigger load_system_props_action
+
+    # Now we can mount /data. File encryption requires keymaster to decrypt
+    # /data, which in turn can only be loaded when system properties are present
+    trigger post-fs-data
+    trigger load_persist_props_action
+
 
     trigger early-boot
     trigger boot
 
 on fs
+    mkdir /dev/usb-ffs 0770 shell shell
+    mkdir /dev/usb-ffs/adb 0770 shell shell
+    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
+    write /sys/class/android_usb/android0/f_ffs/aliases adb
 #INTERNAL_START
     write /proc/bootprof "INIT:Mount_START"
-    mount_all /fstab.mt6755
+    mount_all /fstab.mt6755 multi_init.rc
     write /proc/bootprof "INIT:Mount_END"
 #INTERNAL_END
 
@@ -155,6 +192,10 @@ on post-fs
     mount rootfs rootfs / shared rec
     # Mount default storage into root namespace
     mount none /mnt/runtime/default /storage slave bind rec
+
+    # Make sure /sys/kernel/debug (if present) is labeled properly
+    restorecon_recursive /sys/kernel/debug
+
     # Support legacy paths
     symlink /sdcard /storage/sdcard0
 
@@ -185,18 +226,8 @@ on post-fs
     chown system system /protect_s
     chmod 0770 /protect_s
 
-    chown system system /persist
-    chmod 0770 /persist
-
 #INTERNAL_END
     
-	#agold shipeilong add for persdata start[20151217] 
-    chown system system /persdata/fingerprint
-    chmod 0750 /persdata/fingerprint
-
-    # if SE linux is enabled, this command is also required 
-    restorecon_recursive /persdata/fingerprint
-	#agold shipeilong add end
 
 on post-fs-data
     # We chown/chmod /data again so because mount is run as root + defaults
@@ -205,27 +236,38 @@ on post-fs-data
     # We restorecon /data in case the userdata partition has been reset.
     restorecon /data
 
-    # Emulated internal storage area
-    mkdir /data/media 0770 media_rw media_rw
+    # start debuggerd to make debugging early-boot crashes easier.
+    start debuggerd
+    start debuggerd64
 
-    # Make sure we have the device encryption key
-    start logd
+    # Make sure we have the device encryption key.
     start vold
     installkey /data
 
+    # Start bootcharting as soon as possible after the data partition is
+    # mounted to collect more data.
+    mkdir /data/bootchart 0755 shell shell
+    bootchart_init
 
+    # Avoid predictable entropy pool. Carry over entropy from previous boot.
+    copy /data/system/entropy.dat /dev/urandom
 
     # create basic filesystem structure
     mkdir /data/misc 01771 system misc
-    mkdir /data/misc/adb 02750 system shell
     mkdir /data/misc/bluedroid 02770 bluetooth net_bt_stack
     # Fix the access permissions and group ownership for 'bt_config.conf'
     chmod 0660 /data/misc/bluedroid/bt_config.conf
     chown bluetooth net_bt_stack /data/misc/bluedroid/bt_config.conf
     mkdir /data/misc/bluetooth 0770 system system
     mkdir /data/misc/keystore 0700 keystore keystore
+    mkdir /data/misc/gatekeeper 0700 system system
     mkdir /data/misc/keychain 0771 system system
+    mkdir /data/misc/net 0750 root shell
+    mkdir /data/misc/radio 0770 system radio
+    mkdir /data/misc/sms 0770 system radio
+    mkdir /data/misc/zoneinfo 0775 system system
     mkdir /data/misc/vpn 0770 system vpn
+    mkdir /data/misc/shared_relro 0771 shared_relro shared_relro
     mkdir /data/misc/systemkeys 0700 system system
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
@@ -249,7 +291,13 @@ on post-fs-data
 
     # create the lost+found directories, so as to enforce our permissions
     mkdir /data/lost+found 0770 root root
-    mkdir /data/adb 0700 root root
+
+
+    mkdir /data/anr 0775 system system
+
+    # symlink to bugreport storage location
+    rm /data/bugreports
+    symlink /data/user_de/0/com.android.shell/files/bugreports /data/bugreports
 
     # Separate location for storing security policy files on data
     mkdir /data/security 0711 system system
@@ -257,11 +305,26 @@ on post-fs-data
     # Create all remaining /data root dirs so that they are made through init
     # and get proper encryption policy installed
     mkdir /data/backup 0700 system system
-    mkdir /data/media 0770 media_rw media_rw
     mkdir /data/ss 0700 system system
+
     mkdir /data/system 0775 system system
     mkdir /data/system/heapdump 0700 system system
+    mkdir /data/system/users 0775 system system
+
+    mkdir /data/system_de 0770 system system
+    mkdir /data/system_ce 0770 system system
+
+    mkdir /data/misc_de 01771 system misc
+    mkdir /data/misc_ce 01771 system misc
+
     mkdir /data/user 0711 system system
+    mkdir /data/user_de 0711 system system
+    symlink /data/data /data/user/0
+
+    mkdir /data/media 0770 media_rw media_rw
+    mkdir /data/media/obb 0770 media_rw media_rw
+
+    init_user0
 
     # Reload policy from /data/security if present.
     setprop selinux.reload_policy 1
@@ -347,6 +410,8 @@ on boot
     class_start core
 
 on nonencrypted
+    # A/B update verifier that marks a successful boot.
+    exec - root -- /system/bin/update_verifier nonencrypted
     class_start main
     class_start late_start
 
@@ -372,9 +437,13 @@ on property:vold.decrypt=trigger_post_fs_data
     trigger post-fs-data
 
 on property:vold.decrypt=trigger_restart_min_framework
+    # A/B update verifier that marks a successful boot.
+    exec - root -- /system/bin/update_verifier trigger_restart_min_framework
     class_start main
 
 on property:vold.decrypt=trigger_restart_framework
+    # A/B update verifier that marks a successful boot.
+    exec - root -- /system/bin/update_verifier trigger_restart_framework
     start nvram_daemon
     class_start main
     class_start late_start
@@ -393,24 +462,18 @@ service ueventd /sbin/ueventd
     critical
     seclabel u:r:ueventd:s0
 
-service logd /system/bin/logd
-    class core
-    socket logd stream 0666 logd logd
-    socket logdr seqpacket 0666 logd logd
-    socket logdw dgram 0222 logd logd
-
-service logd-reinit /system/bin/logd --reinit
-    oneshot
-    disabled
-
 service console /system/bin/sh
     class core
     console
     disabled
     user shell
+    group shell log readproc
     seclabel u:r:shell:s0
 
 on property:ro.debuggable=1
+    # Give writes to anyone for the trace folder on debug builds.
+    # The folder is used to store method traces.
+    chmod 0773 /data/misc/trace
     start console
 
 # adbd is controlled via property triggers in init.<platform>.usb.rc
@@ -420,60 +483,19 @@ service adbd /sbin/adbd --root_seclabel=u:r:su:s0
     disabled
     seclabel u:r:adbd:s0
 
-service vold /system/bin/vold \
-        --blkid_context=u:r:blkid:s0 --blkid_untrusted_context=u:r:blkid_untrusted:s0 \
-        --fsck_context=u:r:fsck:s0 --fsck_untrusted_context=u:r:fsck_untrusted:s0
-    class core
-    socket vold stream 0660 root mount
-    socket cryptd stream 0660 root mount
-    ioprio be 2
-
-service debuggerd /system/bin/debuggerd
-    class main
-    
-service debuggerd64 /system/bin/debuggerd64
-    class main
-
-# One shot invocation to deal with encrypted volume.
-service defaultcrypto /system/bin/vdc --wait cryptfs mountdefaultencrypted
-    disabled
-    oneshot
-    # vold will set vold.decrypt to trigger_restart_framework (default
-    # encryption) or trigger_restart_min_framework (other encryption)
-
-# One shot invocation to encrypt unencrypted volumes
-service encrypt /system/bin/vdc --wait cryptfs enablecrypto inplace default
-    disabled
-    oneshot
-    # vold will set vold.decrypt to trigger_restart_framework (default
-    # encryption)
-
-on property:persist.logd.logpersistd=logcatd
-    # all exec/services are called with umask(077), so no gain beyond 0700
-    mkdir /data/misc/logd 0700 logd log
-    # logd for write to /data/misc/logd, log group for read from pstore (-L)
-    exec - logd log -- /system/bin/logcat -L -b all -v threadtime -v usec -v printable -D -f /data/misc/logd/logcat -r 64 -n 256
-    start logcatd
-
-service logcatd /system/bin/logcat -b all -v threadtime -v usec -v printable -D -f /data/misc/logd/logcat -r 64 -n 256
-    class late_start
-    disabled
-    # logd for write to /data/misc/logd, log group for read from log daemon
-    user logd
-    group log
-
-
 #INTERNAL_START
-service meta_tst /system/bin/meta_tst
+service meta_tst /vendor/bin/meta_tst
 
-service nvram_daemon /system/bin/nvram_daemon
+service nvram_daemon /vendor/bin/nvram_daemon
     class main
     user root
     group system
     oneshot
 
+service fuelgauged /system/bin/fuelgauged
+    class main
 
-service mobile_log_d /system/bin/mobile_log_d
+service mobile_log_d /vendor/bin/mobile_log_d
     class main
 
 

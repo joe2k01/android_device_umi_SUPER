@@ -9,7 +9,6 @@ import /init.usb.rc
 import /init.${ro.hardware}.rc
 import /init.usb.configfs.rc
 import /init.${ro.zygote}.rc
-import init.supersu.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -635,5 +634,3 @@ on property:ro.debuggable=1
 service flash_recovery /system/bin/install-recovery.sh
     class main
     oneshot
-# SuperSU:PATCH:279
-# SuperSU:STOCK:46d1106fdb10f853e3b23b5a2ad2c63e62d35021

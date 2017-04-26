@@ -184,7 +184,6 @@ lib64/hw/fingerprint.default.so
 lib64/hw/gps.mt6755.so
 lib64/hw/gralloc.mt6755.so
 lib64/hw/hwcomposer.mt6755.so
-lib64/hw/lights.mt6755.so
 lib64/hw/memtrack.mt6755.so
 lib64/hw/mmsdk.mt6755.so
 lib64/hw/sensors.mt6755.so
@@ -417,7 +416,6 @@ lib/hw/camera.mt6755.so
 lib/hw/gps.mt6755.so
 lib/hw/gralloc.mt6755.so
 lib/hw/hwcomposer.mt6755.so
-lib/hw/lights.mt6755.so
 lib/hw/memtrack.mt6755.so
 lib/hw/mmsdk.mt6755.so
 lib/hw/sensors.mt6755.so

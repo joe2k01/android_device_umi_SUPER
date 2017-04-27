@@ -1,50 +1,27 @@
-From be86ed165bef4475dd901ae6f2fa862e10a82a0a Mon Sep 17 00:00:00 2001
-From: DeckerSU <support@decker.su>
-Date: Mon, 12 Dec 2016 22:25:52 +0200
-Subject: [PATCH] add mising MediaBufferGroup::acquire_buffer symbol
+From c1213ad0dca7c24acd5661eb7a76ad356c338270 Mon Sep 17 00:00:00 2001
+From: Joe <joe2k01dev@gmail.com>
+Date: Thu, 27 Apr 2017 20:21:28 +0200
+Subject: [PATCH] Rewrite of [PATCH] add mising
+ MediaBufferGroup::acquire_buffer symbol and [PATCH] add mising
+ MediaBufferGroup::acquire_buffer symbol 2
 
-Change-Id: Iacea6bc28c153c1a010f93e575b3b509496e742b
 ---
- media/libstagefright/foundation/MediaBufferGroup.cpp | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ media/libstagefright/foundation/MediaBufferGroup.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/media/libstagefright/foundation/MediaBufferGroup.cpp b/media/libstagefright/foundation/MediaBufferGroup.cpp
-index 54f768a..3dcb237 100644
+index 8e4d064..dd4fd0b 100644
 --- a/media/libstagefright/foundation/MediaBufferGroup.cpp
 +++ b/media/libstagefright/foundation/MediaBufferGroup.cpp
-@@ -107,6 +107,11 @@ void MediaBufferGroup::add_buffer(MediaBuffer *buffer) {
-     // optionally: mGrowthLimit = max(mGrowthLimit, mBuffers.size());
+@@ -126,6 +126,16 @@ void MediaBufferGroup::add_buffer(MediaBuffer *buffer) {
+     mBuffers.emplace_back(buffer);
  }
-
+ 
 +extern "C" status_t _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferE(
 +                    MediaBufferGroup* group, MediaBuffer **out) {
 +    return group->acquire_buffer(out, false, 0);
 +}
 +
- bool MediaBufferGroup::has_buffers() {
-     if (mBuffers.size() < mGrowthLimit) {
-         return true; // We can add more buffers internally.
--- 
-2.11.0
-
-From 0da66f4b7e8bb6531257da099fa0c0c4e7e7f601 Mon Sep 17 00:00:00 2001
-From: DeckerSU <support@decker.su>
-Date: Mon, 12 Dec 2016 23:27:44 +0200
-Subject: [PATCH] add mising MediaBufferGroup::acquire_buffer symbol 2
-
-Change-Id: If0f0b5b3528f828c94966f51b272331d51bd666e
----
- media/libstagefright/foundation/MediaBufferGroup.cpp | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/media/libstagefright/foundation/MediaBufferGroup.cpp b/media/libstagefright/foundation/MediaBufferGroup.cpp
-index 3dcb237..c9e95df 100644
---- a/media/libstagefright/foundation/MediaBufferGroup.cpp
-+++ b/media/libstagefright/foundation/MediaBufferGroup.cpp
-@@ -114,6 +114,11 @@ extern "C" status_t _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBu
-     return group->acquire_buffer(out, false, 0);
- }
- 
 +extern "C" status_t _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferEb(
 +                    MediaBufferGroup* group, MediaBuffer **out, bool nonBlocking) {
 +    return group->acquire_buffer(out, nonBlocking, 0);
@@ -53,8 +30,6 @@ index 3dcb237..c9e95df 100644
  bool MediaBufferGroup::has_buffers() {
      if (mBuffers.size() < mGrowthLimit) {
          return true; // We can add more buffers internally.
--- 
-2.11.0
 
 From 979f7fd62ff43c1e3f74629344b67fd8fc37379c Mon Sep 17 00:00:00 2001
 From: DeckerSU <support@decker.su>

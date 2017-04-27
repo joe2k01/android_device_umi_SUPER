@@ -24,6 +24,10 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 # Device product elements
 include $(LOCAL_PATH)/product/*.mk
 
+# Remove packages that do not work well
+PRODUCT_PACKAGES += \
+    RemovePackages
+
 # Dalvik heap configurations
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxxhdpi-4096-dalvik-heap.mk)
 

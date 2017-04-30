@@ -71,6 +71,7 @@ lib{,64}/libgsensorcali_jni.so
 
 # GPS
 bin/mtk_agpsd
+bin/slpd
 bin/wifi2agps
 lib/libmnl.so
 lib{,64}/hw/gps.mt6755.so
@@ -83,12 +84,23 @@ bin/batterywarning
 bin/fuelgauged
 bin/kpoc_charger
 bin/spm_loader
+bin/thermal
+bin/thermald
+bin/thermalloadalgod
+bin/thermal_manager
 lib{,64}/libperfservicenative.so
 lib/libmtcloader.so
 lib/libfgauge.so
 lib{,64}/libmtklimiter.so
 lib/libthermalalgo.so
 lib{,64}/libperfservice.so
+etc/.tp/.ht120.mtc
+etc/.tp/.thermal_meta.conf
+etc/.tp/.thermal_policy_00
+etc/.tp/.thermal_policy_01
+etc/.tp/.thermal_policy_02
+etc/.tp/thermal.conf
+etc/.tp/thermal.off.conf
 etc/firmware/pcm_deepidle.bin
 etc/firmware/pcm_deepidle_by_mp1.bin
 etc/firmware/pcm_mcdi_ddrdfs.bin
@@ -127,9 +139,8 @@ lib{,64}/libion_mtk.so
 lib64/libpq_cust.so
 lib{,64}/libpq_prot.so
 lib{,64}/libpqservice.so
-lib{,64}/libui_ext.so
-lib{,64}/hw/gralloc.mt6735.so
-lib{,64}/hw/hwcomposer.mt6735.so
+lib{,64}/hw/gralloc.mt6755.so
+lib{,64}/hw/hwcomposer.mt6755.so
 lib{,64}/egl/libGLES_mali.so
 lib{,64}/libagoldtpglove_jni.so
 lib{,64}/libRSDriver_mtk.so
@@ -139,7 +150,7 @@ bin/autobt
 bin/em_svr
 bin/wmt_loader
 lib{,64}/libbluetooth_mtk_pure.so
-lib/libbluetooth_mtk.so
+lib{,64}/libbluetooth_mtk.so
 lib/libbt-vendor.so
 lib{,64}/libfmcust.so
 lib64/libwapi.so
@@ -218,9 +229,9 @@ lib{,64}/libfeatureio.so
 lib{,64}/libfile_op.so
 lib64/libfilterpack_facedetect.so
 lib{,64}/libJpgDecPipe.so
-lib/libSwJpgCodec.so
+lib{,64}/libSwJpgCodec.so
 lib{,64}/libJpgEncPipe.so
-lib/libmhalImageCodec.so
+lib{,64}/libmhalImageCodec.so
 lib{,64}/libmtkcamera_client.so
 lib{,64}/libmtkjpeg.so
 lib{,64}/libn3d3a.so
@@ -232,6 +243,12 @@ lib{,64}/libflashlightjni.so
 lib{,64}/libhdrproc.so
 lib{,64}/libtouchfilter.so
 lib{,64}/libled_testjni.so
+lib{,64}/libcam.utils.so
+lib{,64}/libfeatureiodrv.so
+lib{,64}/libimageio.so
+lib{,64}/libimageio_plat_drv.so
+lib/libSwJpgCodec.so
+lib/libmhalImageCodec.so
 
 # Media / Audio
 bin/audiocmdservice_atci
@@ -300,7 +317,6 @@ etc/audio_param/Volume_AudioParam.xml
 etc/audio_param/VolumeGainMap_AudioParam.xml
 etc/audio_param/VolumeGainMap_ParamUnitDesc.xml
 etc/audio_param/Volume_ParamUnitDesc.xml
-etc/audio_policy.conf
 lib{,64}/hw/audio.a2dp.default.so
 lib{,64}/hw/audio_policy.default.so
 lib{,64}/hw/audio_policy.stub.so
@@ -334,6 +350,8 @@ lib{,64}/libmdfx.so
 lib{,64}/libmmprofile_jni.so
 lib{,64}/libmmprofile.so
 lib{,64}/libmmsdkservice.so
+lib/libaal_cust.so
+lib/libpq_cust.so
 lib/libmp4enc_sa.ca7.so
 lib/libmp4enc_xa.ca7.so
 lib{,64}/libmsbc_mtk.so
@@ -450,6 +468,7 @@ bin/etsd
 bin/fingerprintd
 lib64/hw/fingerprint.default.so
 lib64/libfprint-x64.so
+lib64/libFpEts.so
 
 # Wifi
 etc/firmware/ROMv2_lm_patch_1_0_hdr.bin
@@ -466,6 +485,9 @@ vendor/lib/libwvm.so
 vendor/lib/libWVStreamControlAPI_L3.so
 vendor/lib/drm/libdrmwvmplugin.so
 vendor/lib/mediadrm/libwvdrmengine.so
+vendor/lib{,64}/mediadrm/libmockdrmcryptoplugin.so
+vendor/lib{,64}/mediadrm/libdrmclearkeyplugin.so
+lib/drm/libdrmmtkplugin.so
 
 # Show Boot logos
 bin/boot_logo_updater

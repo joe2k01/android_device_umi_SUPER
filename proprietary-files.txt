@@ -428,7 +428,6 @@ lib/libvoicerecognition.so
 lib/libvt_custom.so
 lib/libvtmal.so
 lib/libvt_socketbind.so
-lib64/libEtsdc.so
 lib64/libhevce_sb.ca7.android.so
 lib64/libjni_jpegdecoder.so
 lib64/libmemoryDumpEncoder.so
@@ -464,11 +463,9 @@ etc/mtklog-config.prop
 lib{,64}/libmediatek_exceptionlog.so
 
 # Fingerprint
-bin/etsd
 bin/fingerprintd
 lib64/hw/fingerprint.default.so
 lib64/libfprint-x64.so
-lib64/libFpEts.so
 
 # Wifi
 etc/firmware/ROMv2_lm_patch_1_0_hdr.bin

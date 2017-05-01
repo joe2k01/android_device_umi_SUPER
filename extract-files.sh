@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VENDOR=umi
-DEVICE=super
+DEVICE=SUPER
 
 if [ $# -eq 0 ]; then
   SRC=adb

@@ -1,0 +1,12 @@
+type mnld, domain;
+init_daemon_domain(mnld)
+
+net_domain(mnld)
+
+allow mnld init:unix_dgram_socket sendto;
+allow mnld nvdata_file:dir search;
+allow mnld nvdata_file:file { read getattr open };
+allow mnld nvram_data_file:lnk_file read;
+allow mnld sysfs:file write;
+allow mnld mnl_file:dir { write remove_name add_name };
+allow mnld mnl_file:sock_file { write create unlink setattr };

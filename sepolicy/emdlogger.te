@@ -1,0 +1,15 @@
+type emdlogger, domain;
+init_daemon_domain(emdlogger)
+
+binder_use(emdlogger)
+binder_service(emdlogger)
+
+allow emdlogger ccci_device:chr_file { read write open };
+allow emdlogger debug_mdlogger_prop:property_service set;
+allow emdlogger init:unix_stream_socket connectto;
+allow emdlogger property_socket:sock_file write;
+
+allow emdlogger mdlogger_data_file:dir { write search read create open rmdir remove_name add_name relabelto getattr};
+allow emdlogger mdlogger_data_file:fifo_file { read write create open setattr };
+allow emdlogger mdlogger_data_file:file { write read create open rename unlink getattr setattr append};
+allow emdlogger system_data_file:dir { write create open add_name relabelfrom};

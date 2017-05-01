@@ -1,0 +1,16 @@
+allow mediaserver camera_isp_device:chr_file { read write ioctl open };
+allow mediaserver ccci_device:chr_file { read write ioctl open };
+allow mediaserver default_android_service:service_manager find;
+allow mediaserver devmap_device:chr_file { read ioctl open };
+allow mediaserver kd_camera_flashlight_device:chr_file { read write ioctl open };
+allow mediaserver kd_camera_hw_device:chr_file { read write ioctl open };
+allow mediaserver mnt_user_file:dir search;
+allow mediaserver mnt_user_file:lnk_file read;
+allow mediaserver nvdata_file:dir search;
+allow mediaserver nvdata_file:file { read getattr open };
+allow mediaserver nvram_data_file:lnk_file read;
+allow mediaserver storage_file:dir search;
+allow mediaserver storage_file:lnk_file read;
+allow mediaserver sysfs_wake_lock:file { read write open };
+allow mediaserver MtkCodecService:binder call;
+allow mediaserver mtk_codec_service_service:service_manager find;

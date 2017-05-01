@@ -1,0 +1,9 @@
+allow untrusted_app battery_service:service_manager find;
+allow untrusted_app block_device:dir { read open };
+allow untrusted_app guiext-server_service:service_manager find;
+allow untrusted_app device:dir { read open };
+allow untrusted_app nvdata_file:dir getattr;
+allow untrusted_app protect_f_data_file:dir getattr;
+allow untrusted_app protect_s_data_file:dir getattr;
+allow untrusted_app zygote:dir search;
+allow untrusted_app zygote:file { read open };

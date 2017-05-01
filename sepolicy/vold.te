@@ -1,0 +1,8 @@
+allow vold logd:dir { read getattr open };
+
+# Access 'OMADM_USB' nvram
+allow vold nvdata_file:dir { read ioctl open };
+
+# grant permission to /protect_f and /protect_s for the command, fstrim dotrim
+allow vold protect_f_data_file:dir { read ioctl open };
+allow vold protect_s_data_file:dir { read ioctl open };

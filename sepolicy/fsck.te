@@ -1,0 +1,3 @@
+allow fsck nvdata_device:blk_file { read ioctl write getattr open };
+allow fsck protect1_block_device:blk_file { read write ioctl open };
+allow fsck protect2_block_device:blk_file { write ioctl read getattr open };

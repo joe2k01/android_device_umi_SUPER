@@ -1,0 +1,7 @@
+type terservice ,domain;
+binder_use(terservice) 
+binder_service(terservice) 
+
+allow terservice terservice_service:service_manager add;
+allow terservice terservice_prop:property_service set;
+allow terservice ccci_device:chr_file { read write ioctl open };

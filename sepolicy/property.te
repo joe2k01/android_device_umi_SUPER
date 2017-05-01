@@ -1,0 +1,4 @@
+type terservice_prop, property_type;
+type mnld_prop, property_type;
+type gsm0710muxd_prop, property_type;
+type debug_mdlogger_prop, property_type;

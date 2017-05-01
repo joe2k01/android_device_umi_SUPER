@@ -1,0 +1,8 @@
+persist.ter u:object_r:terservice_prop:s0
+
+gps.clock.type u:object_r:mnld_prop:s0
+gps.gps.version u:object_r:mnld_prop:s0
+
+ril.mux. u:object_r:gsm0710muxd_prop:s0
+
+debug.mdlogger u:object_r:debug_mdlogger_prop:s0

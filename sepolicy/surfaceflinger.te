@@ -1,0 +1,3 @@
+allow surfaceflinger debug_prop:property_service set;
+allow surfaceflinger guiext-server_service:service_manager find;
+allow surfaceflinger default_android_service:service_manager find;

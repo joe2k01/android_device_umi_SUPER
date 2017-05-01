@@ -1,0 +1,7 @@
+allow bootanim terservice:binder call;
+allow bootanim guiext-server:binder call;
+allow bootanim guiext-server:binder transfer;
+allow bootanim mediaserver:binder call;
+allow bootanim mediaserver:binder transfer;
+allow bootanim default_android_service:service_manager find;
+allow bootanim guiext-server_service:service_manager find;

@@ -1,0 +1,9 @@
+type guiext-server, domain;
+init_daemon_domain(guiext-server)
+
+binder_service(guiext-server)
+binder_use(guiext-server)
+binder_call({domain -init}, guiext-server)
+binder_call(guiext-server, {domain -init})
+
+allow guiext-server guiext-server_service:service_manager add;

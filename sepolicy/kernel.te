@@ -1,0 +1,4 @@
+allow kernel nvdata_file:dir search;
+allow kernel nvdata_file:file { read open };
+allow kernel nvram_data_file:lnk_file read;
+allow kernel self:capability dac_override;

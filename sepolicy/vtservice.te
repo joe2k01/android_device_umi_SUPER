@@ -1,0 +1,7 @@
+type vtservice ,domain;
+init_daemon_domain(vtservice)
+binder_use(vtservice)
+binder_call(vtservice, mediaserver)
+binder_service(vtservice)
+
+allow vtservice vtservice_service:service_manager add;

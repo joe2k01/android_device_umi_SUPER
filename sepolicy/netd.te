@@ -1,0 +1,1 @@
+allow netd wmtWifi_device:chr_file { write open };

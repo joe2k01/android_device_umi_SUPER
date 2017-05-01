@@ -1,0 +1,11 @@
+type gsm0710muxd ,domain;
+init_daemon_domain(gsm0710muxd)
+
+allow gsm0710muxd device:dir { write remove_name add_name };
+allow gsm0710muxd device:lnk_file { create unlink };
+allow gsm0710muxd devpts:chr_file setattr;
+allow gsm0710muxd gsm0710muxd_device:chr_file { read write open };
+allow gsm0710muxd init:unix_stream_socket connectto;
+allow gsm0710muxd property_socket:sock_file write;
+allow gsm0710muxd self:capability { setuid fowner chown };
+allow gsm0710muxd gsm0710muxd_prop:property_service set;

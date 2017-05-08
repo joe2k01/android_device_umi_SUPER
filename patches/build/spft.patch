@@ -1,24 +1,4 @@
 diff --git a/core/Makefile b/core/Makefile
-index 5ea1b2a..ed5a4d3 100644
---- a/core/Makefile
-+++ b/core/Makefile
-@@ -1949,10 +1949,15 @@ CM_TARGET_PACKAGE := $(PRODUCT_OUT)/lineage-$(LINEAGE_VERSION).zip
- 
- .PHONY: otapackage bacon
- otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
-+spft:
-+ifeq ($(BOARD_USES_MTK_HARDWARE),true)
-+	$(shell export OLDPWD=$pwd && cd $(PRODUCT_OUT) && zip -q spft-$(LINEAGE_VERSION).zip system.img boot.img scatter.txt && cd $(OLDPWD))
-+endif
- bacon: otapackage
- 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(CM_TARGET_PACKAGE)
- 	$(hide) $(MD5SUM) $(CM_TARGET_PACKAGE) > $(CM_TARGET_PACKAGE).md5sum
- 	@echo -e ${CL_CYN}"Package Complete: $(CM_TARGET_PACKAGE)"${CL_RST}
-+	$(MAKE) spft
- 
- # -----------------------------------------------------------------
- # The factory package
-diff --git a/core/Makefile b/core/Makefile
 index 5ea1b2a..d65d5ff 100644
 --- a/core/Makefile
 +++ b/core/Makefile

@@ -1,0 +1,32 @@
+commit 16bd9dac32b95fbc6c00d8f112e667d564ed57db
+Author: leskal <alexakis1997@gmail.com>
+Date:   Thu May 11 13:43:26 2017 +0300
+
+    (1/3) Implement Mediatek's GNSS extension
+    
+    With the setting BOARD_USES_MTK_GPS, a global MTK_GPS define will be available to all target modules.
+    
+    Change-Id: Id2c2fb8d055a25f98213fd093a4cdd9ea7488fe7
+
+diff --git a/core/mtk_target.mk b/core/mtk_target.mk
+index bc03eba..2eebdb8 100644
+--- a/core/mtk_target.mk
++++ b/core/mtk_target.mk
+@@ -14,3 +14,17 @@ ifeq ($(BOARD_USES_MTK_HARDWARE),true)
+     2ND_CLANG_TARGET_GLOBAL_CFLAGS += $(mtk_flags)
+     2ND_CLANG_TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
+ endif
++
++ifeq ($(BOARD_USES_MTK_GPS),true)
++    mtk_flags := -DMTK_GPS
++
++    TARGET_GLOBAL_CFLAGS += $(mtk_flags)
++    TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
++    CLANG_TARGET_GLOBAL_CFLAGS += $(mtk_flags)
++    CLANG_TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
++
++    2ND_TARGET_GLOBAL_CFLAGS += $(mtk_flags)
++    2ND_TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
++    2ND_CLANG_TARGET_GLOBAL_CFLAGS += $(mtk_flags)
++    2ND_CLANG_TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
++endif

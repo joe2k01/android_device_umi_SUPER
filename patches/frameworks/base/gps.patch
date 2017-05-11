@@ -23,8 +23,8 @@ index 323f326..dac30a4 100644
   */
  public final class GpsStatus {
 +	// MTK workaround
-+    private static final boolean MTKHardware = !(SystemProperties.get
-+                                                 ("BOARD_MEDIATEK_USES_GPS", "").equals(""));
++    private static final boolean MTK_GPS = !(SystemProperties.get
++                                             ("BOARD_USES_MTK_GPS", "").equals(""));
      private static final int NUM_SATELLITES = 255;
  
      /* These package private values are modified by the LocationManager class */
@@ -32,7 +32,7 @@ index 323f326..dac30a4 100644
          }
      }
  
-+    if (MTKHardware) {
++    if (MTK_GPS) {
 +		/**
 +		 * Used internally within {@link LocationManager} to copy GPS status
 +		 * data from the Location Manager Service to its cached GpsStatus instance.
@@ -110,8 +110,8 @@ index 4544814..eac5a8c 100644
   */
  public class LocationManager {
 +	// MTK workaround
-+    private static final boolean MTKHardware = !(SystemProperties.get
-+                                                 ("BOARD_MEDIATEK_USES_GPS", "").equals(""));
++    private static final boolean MTK_GPS = !(SystemProperties.get
++                                             ("BOARD_USES_MTK_GPS", "").equals(""));
      private static final String TAG = "LocationManager";
  
      private final Context mContext;
@@ -119,7 +119,7 @@ index 4544814..eac5a8c 100644
              }
          }
  
-+        if (MTKHardware) {
++        if (MTK_GPS) {
 +			@Override
 +			public void onGnssSvStatusChanged(int gnssSvCount, int[] prns, float[] snrs,
 +			        float[] elevations, float[] azimuths,
@@ -158,8 +158,8 @@ index 833c340..f369c9a 100644
   */
  public class GpsLocationProvider implements LocationProviderInterface {
 +	
-+	 private static final boolean MTKHardware = !(SystemProperties.get
-+                                                 ("BOARD_MEDIATEK_USES_GPS", "").equals(""));
++	 private static final boolean MTK_GPS = !(SystemProperties.get
++                                             ("BOARD_USES_MTK_GPS", "").equals(""));
  
      private static final String TAG = "GpsLocationProvider";
  
@@ -167,7 +167,7 @@ index 833c340..f369c9a 100644
          }
      }
  
-+    if (MTKHardware) {
++    if (MTK_GPS) {
 +		/**
 +		 * Count number of GNSS satellites used in fix.
 +		 *
@@ -244,7 +244,7 @@ index 833c340..f369c9a 100644
      private static final int ALMANAC_MASK = 1;
      private static final int USED_FOR_FIX_MASK = 2;
  
-+    if (MTKHardware) {
++    if (MTK_GPS) {
 +		// GNSS extension
 +		private static final int MAX_GNSS_SVS = 256;
 +    }
@@ -254,7 +254,7 @@ index 833c340..f369c9a 100644
 -    private float mSnrs[] = new float[MAX_SVS];
 -    private float mSvElevations[] = new float[MAX_SVS];
 -    private float mSvAzimuths[] = new float[MAX_SVS];
-+    if (MTKHardware) {
++    if (MTK_GPS) {
 +		private int mSvs[] = new int[MAX_GNSS_SVS];
 +		private float mSnrs[] = new float[MAX_GNSS_SVS];
 +		private float mSvElevations[] = new float[MAX_GNSS_SVS];
@@ -266,7 +266,7 @@ index 833c340..f369c9a 100644
 +		 private float mSvAzimuths[] = new float[MAX_SVS];
 +    }
      private int mSvMasks[] = new int[3];
-+    if (MTKHardware) {
++    if (MTK_GPS) {
 +		private boolean mSvEphemerisPresences[] = new boolean[MAX_GNSS_SVS];
 +		private boolean mSvAlmanacPresences[] = new boolean[MAX_GNSS_SVS];
 +		private boolean mSvUsedInFix[] = new boolean[MAX_GNSS_SVS];
@@ -278,7 +278,7 @@ index 833c340..f369c9a 100644
      // mask[0] is ephemeris mask and mask[1] is almanac mask
      private native int native_read_sv_status(int[] svs, float[] snrs,
              float[] elevations, float[] azimuths, int[] masks);
-+    if (MTKHardware) {
++    if (MTK_GPS) {
 +		// returns number of GNSS SVs
 +		private native int native_read_gnss_sv_status(int[] svs, float[] snrs,
 +                float[] elevations, float[] azimuths,
@@ -308,8 +308,8 @@ index 53ff6c2..9eb5c17 100644
   * Implementation of a handler for {@link IGpsStatusListener}.
   */
  abstract class GpsStatusListenerHelper extends RemoteListenerHelper<IGpsStatusListener> {
-+	private static final boolean MTKHardware = !(SystemProperties.get
-+                                                 ("BOARD_MEDIATEK_USES_GPS", "").equals(""));
++	private static final boolean MTK_GPS = !(SystemProperties.get
++                                            ("BOARD_USES_MTK_GPS", "").equals(""));
 +	
      protected GpsStatusListenerHelper(Handler handler) {
          super(handler, "GpsStatusListenerHelper");
@@ -318,7 +318,7 @@ index 53ff6c2..9eb5c17 100644
          foreach(operation);
      }
  
-+    if (MTKHardware) {
++    if (MTK_GPS) {
 +		public void onGnssSvStatusChanged(
 +		        final int svCount,
 +                final int[] prns,
@@ -357,7 +357,7 @@ index 91eeb8b..ae0a7e6 100644
  #include "JNIHelp.h"
  #include "jni.h"
  #include "hardware/hardware.h"
-+#ifndef MTK_GPS_GNSS
++#ifndef MTK_GPS
  #include "hardware/gps.h"
 +#else
 +#include "hardware/gps_mtk.h"
@@ -369,7 +369,7 @@ index 91eeb8b..ae0a7e6 100644
  static jmethodID method_reportLocation;
  static jmethodID method_reportStatus;
  static jmethodID method_reportSvStatus;
-+#ifdef MTK_GPS_GNSS
++#ifdef MTK_GPS
 +static jmethodID method_reportGnssSvStatus;
 +#endif
  static jmethodID method_reportAGpsStatus;
@@ -379,7 +379,7 @@ index 91eeb8b..ae0a7e6 100644
  
  // temporary storage for GPS callbacks
  static GpsSvStatus  sGpsSvStatus;
-+#ifdef MTK_GPS_GNSS
++#ifdef MTK_GPS
 +static GnssSvStatus  sGnssSvStatus;
 +#endif
  static const char* sNmeaString;
@@ -389,7 +389,7 @@ index 91eeb8b..ae0a7e6 100644
      checkAndClearExceptionFromCallback(env, __FUNCTION__);
  }
  
-+#ifdef MTK_GPS_GNSS
++#ifdef MTK_GPS
 +static void gnss_sv_status_callback(GnssSvStatus* sv_status)
 +{
 +    JNIEnv* env = AndroidRuntime::getJNIEnv();
@@ -408,7 +408,7 @@ index 91eeb8b..ae0a7e6 100644
  
 -GpsCallbacks sGpsCallbacks = {
 -    sizeof(GpsCallbacks),
-+#ifndef MTK_GPS_GNSS
++#ifndef MTK_GPS
 + GpsCallbacks sGpsCallbacks = {
 +	 sizeof(GpsCallbacks),
 +#else
@@ -422,7 +422,7 @@ index 91eeb8b..ae0a7e6 100644
      release_wakelock_callback,
      create_thread_callback,
      request_utc_time_callback,
-+#ifdef MTK_GPS_GNSS
++#ifdef MTK_GPS
 +    // MTK
 +    gnss_sv_status_callback,
 +#endif
@@ -433,7 +433,7 @@ index 91eeb8b..ae0a7e6 100644
      method_reportLocation = env->GetMethodID(clazz, "reportLocation", "(IDDDFFFJ)V");
      method_reportStatus = env->GetMethodID(clazz, "reportStatus", "(I)V");
      method_reportSvStatus = env->GetMethodID(clazz, "reportSvStatus", "()V");
-+#ifdef MTK_GPS_GNSS
++#ifdef MTK_GPS
 +    method_reportGnssSvStatus = env->GetMethodID(clazz, "reportGnssSvStatus", "()V");
 +#endif
      method_reportAGpsStatus = env->GetMethodID(clazz, "reportAGpsStatus", "(II[B)V");
@@ -443,7 +443,7 @@ index 91eeb8b..ae0a7e6 100644
          mCallbacksObj = env->NewGlobalRef(obj);
  
      // fail if the main interface fails to initialize
-+#ifndef MTK_GPS_GNSS
++#ifndef MTK_GPS
      if (!sGpsInterface || sGpsInterface->init(&sGpsCallbacks) != 0)
 +#else
 +    if (!sGpsInterface || sGpsInterface->init((GpsCallbacks*)&sGpsCallbacks) != 0)
@@ -455,7 +455,7 @@ index 91eeb8b..ae0a7e6 100644
      return (jint) num_svs;
  }
  
-+#ifdef MTK_GPS_GNSS
++#ifdef MTK_GPS
 +static jint android_location_GpsLocationProvider_read_gnss_sv_status(JNIEnv* env, jobject obj,
 +        jintArray prnArray, jfloatArray snrArray, jfloatArray elevArray, jfloatArray azumArray,
 +        jbooleanArray ephemerisPresencesArray,
@@ -502,7 +502,7 @@ index 91eeb8b..ae0a7e6 100644
      {"native_read_sv_status",
              "([I[F[F[F[I)I",
              (void*)android_location_GpsLocationProvider_read_sv_status},
-+#ifdef MTK_GPS_GNSS
++#ifdef MTK_GPS
 +    {"native_read_gnss_sv_status",
 +            "([I[F[F[F[Z[Z[Z)I",
 +            (void*)android_location_GpsLocationProvider_read_gnss_sv_status},

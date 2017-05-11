@@ -18,15 +18,15 @@ index bc03eba..2eebdb8 100644
  endif
 +
 +ifeq ($(BOARD_USES_MTK_GPS),true)
-+    mtk_flags := -DMTK_GPS
++    mtk_gps_flag := -DMTK_GPS
 +
-+    TARGET_GLOBAL_CFLAGS += $(mtk_flags)
-+    TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
-+    CLANG_TARGET_GLOBAL_CFLAGS += $(mtk_flags)
-+    CLANG_TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
++    TARGET_GLOBAL_CFLAGS += $(mtk_gps_flag)
++    TARGET_GLOBAL_CPPFLAGS += $(mtk_gps_flag)
++    CLANG_TARGET_GLOBAL_CFLAGS += $(mtk_gps_flag)
++    CLANG_TARGET_GLOBAL_CPPFLAGS += $(mtk_gps_flag)
 +
-+    2ND_TARGET_GLOBAL_CFLAGS += $(mtk_flags)
-+    2ND_TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
-+    2ND_CLANG_TARGET_GLOBAL_CFLAGS += $(mtk_flags)
-+    2ND_CLANG_TARGET_GLOBAL_CPPFLAGS += $(mtk_flags)
++    2ND_TARGET_GLOBAL_CFLAGS += $(mtk_gps_flag)
++    2ND_TARGET_GLOBAL_CPPFLAGS += $(mtk_gps_flag)
++    2ND_CLANG_TARGET_GLOBAL_CFLAGS += $(mtk_gps_flag)
++    2ND_CLANG_TARGET_GLOBAL_CPPFLAGS += $(mtk_gps_flag)
 +endif

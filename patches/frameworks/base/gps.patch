@@ -1,10 +1,10 @@
-commit b695f13f92ddf6cdcb1bd9533563e02b74571020
+commit 01bb11032719db9f07360a21a8e5f5a5ec708729
 Author: leskal <alexakis1997@gmail.com>
-Date:   Wed May 10 17:46:35 2017 +0300
+Date:   Thu May 11 13:17:35 2017 +0300
 
     location: implement mtk GNSS extension
     
-    Change-Id: If2c02670617bc96c11b8b6a649f322b9e716bfd1
+    Change-Id: I13c0c25218c5b9565f2eecc8c7a3988a9f2b4c2b
 
 diff --git a/location/java/android/location/GpsStatus.java b/location/java/android/location/GpsStatus.java
 index 323f326..dac30a4 100644
@@ -73,23 +73,10 @@ index 323f326..dac30a4 100644
       * Used by {@link LocationManager#getGpsStatus} to copy LocationManager's
       * cached GpsStatus instance to the client's copy.
 diff --git a/location/java/android/location/IGpsStatusListener.aidl b/location/java/android/location/IGpsStatusListener.aidl
-index 62b1c6b..7e19e3a 100644
+index 62b1c6b..f3bffc4 100644
 --- a/location/java/android/location/IGpsStatusListener.aidl
 +++ b/location/java/android/location/IGpsStatusListener.aidl
-@@ -17,17 +17,28 @@
- package android.location;
- 
- import android.location.Location;
-+import android.os.SystemProperties;
- 
- /**
-  * {@hide}
-  */
- oneway interface IGpsStatusListener
- {
-+    // MTK workaround
-+    private static final boolean MTKHardware = !(SystemProperties.get
-+                                                 ("BOARD_MEDIATEK_USES_GPS", "").equals(""));
+@@ -26,8 +26,14 @@ oneway interface IGpsStatusListener
      void onGpsStarted();
      void onGpsStopped();
      void onFirstFix(int ttff);
@@ -98,13 +85,12 @@ index 62b1c6b..7e19e3a 100644
 +    void onSvStatusChanged(int svCount, in int[] prns, in float[] snrs,
 +            in float[] elevations, in float[] azimuths,
              int ephemerisMask, int almanacMask, int usedInFixMask);
-+   if (MTKHardware) {
++    //MTK GNSS
 +    void onGnssSvStatusChanged(int gnssSvCount, in int[] prns, in float[] snrs,
 +            in float[] elevations, in float[] azimuths,
 +            in boolean[] ephemerisPresences,
 +            in boolean[] almanacPresences,
 +            in boolean[] usedInFix);
-+    }
      void onNmeaReceived(long timestamp, String nmea);
  }
 diff --git a/location/java/android/location/LocationManager.java b/location/java/android/location/LocationManager.java
@@ -172,7 +158,7 @@ index 833c340..f369c9a 100644
   */
  public class GpsLocationProvider implements LocationProviderInterface {
 +	
-+	private static final boolean MTKHardware = !(SystemProperties.get
++	 private static final boolean MTKHardware = !(SystemProperties.get
 +                                                 ("BOARD_MEDIATEK_USES_GPS", "").equals(""));
  
      private static final String TAG = "GpsLocationProvider";

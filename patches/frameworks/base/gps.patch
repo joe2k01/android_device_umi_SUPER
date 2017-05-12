@@ -157,7 +157,7 @@ index 833c340..f369c9a 100644
   * {@hide}
   */
  public class GpsLocationProvider implements LocationProviderInterface {
-+	
++
 +	 private static final boolean MTK_GPS = !(SystemProperties.get
 +                                             ("BOARD_USES_MTK_GPS", "").equals(""));
  
@@ -310,7 +310,7 @@ index 53ff6c2..9eb5c17 100644
  abstract class GpsStatusListenerHelper extends RemoteListenerHelper<IGpsStatusListener> {
 +	private static final boolean MTK_GPS = !(SystemProperties.get
 +                                            ("BOARD_USES_MTK_GPS", "").equals(""));
-+	
++
      protected GpsStatusListenerHelper(Handler handler) {
          super(handler, "GpsStatusListenerHelper");
          setSupported(GpsLocationProvider.isSupported());
